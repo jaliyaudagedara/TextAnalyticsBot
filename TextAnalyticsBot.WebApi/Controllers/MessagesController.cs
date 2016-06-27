@@ -94,6 +94,9 @@ namespace TextAnalyticsBot.WebApi
             }
             else if (message.Type == "EndOfConversation")
             {
+                Message reply = message.CreateReplyMessage("Good bye. Hope you had a good time.");
+                reply.Type = message.Type;
+                return reply;
             }
 
             return null;
