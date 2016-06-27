@@ -10,22 +10,44 @@
 
     <script src="app/app.js"></script>
 
-    <title></title>
+    <title> Text Analytics Bot </title>
     <meta charset="utf-8" />
 </head>
 <body>
-    <div ng-controller="AppController">
-        <md-input-container class="md-block">
-            <label>Input</label>
-            <textarea ng-model="message.text" md-maxlength="150" rows="5" md-select-on-focus></textarea>
-        </md-input-container>
+    <div layout="column" ng-controller="AppController">
+        <div style="text-align:center">
+            <h1>Text Analytics Bot</h1>
+        </div>
 
-        <md-button class="md-raised md-primary" ng-click="send()">Send</md-button>
+        <md-content layout="column" flex class="md-padding">
+            <md-input-container class="md-block">
+                <label>Input</label>
+                <textarea ng-model="message.text" md-maxlength="150" rows="5" md-select-on-focus></textarea>
+            </md-input-container>
 
-        <md-input-container class="md-block">
-            <label>Result</label>
-            <textarea ng-model="message.result.text" rows="5" md-select-on-focus disabled></textarea>
-        </md-input-container>
+            <md-button class="md-raised md-primary" ng-click="send()">Send</md-button>
+
+            <md-input-container class="md-block">
+                <label>Result</label>
+                <textarea ng-model="message.result.text" rows="5" md-select-on-focus disabled></textarea>
+            </md-input-container>
+
+            <div ng-if="message.result.botPerUserInConversationData.sentimentScore>0">
+                <div layout="row">
+                    <div flex="20" style="text-align:center">
+                        Negative
+                    </div>
+                    <div flex="70">
+                        <md-progress-linear md-mode="determinate" value="{{message.result.botPerUserInConversationData.sentimentScore*100}}"></md-progress-linear>
+                    </div>
+                    <div flex="20" style="text-align:center">
+                        Positive
+                    </div>
+                </div>
+            </div>
+
+        </md-content>
     </div>
 </body>
+
 </html>
