@@ -41,6 +41,7 @@ namespace TextAnalyticsBot.WebApi
 
             Message replyMessage = message.CreateReplyMessage($"{FormatResultMessage(result)}");
             replyMessage.SetBotPerUserInConversationData("counter", counter);
+            replyMessage.SetBotPerUserInConversationData("sentimentScore", result[TextAnalyticsResultType.Sentiment].Documents.FirstOrDefault().Score);
             return replyMessage;
         }
 
