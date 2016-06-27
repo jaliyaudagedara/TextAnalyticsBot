@@ -28,6 +28,14 @@ namespace TextAnalyticsBot.WebApi
         /// </summary>
         public async Task<Message> Post([FromBody]Message message)
         {
+            //if (message == null)
+            //{
+            //    message = new Message();
+            //    Message reply = message.CreateReplyMessage("I'm still under development. Please try again later");
+            //    reply.Type = "Ping";
+            //    return reply;
+            //}
+
             if (message.Type == "Message")
             {
                 var counter = message.GetBotPerUserInConversationData<int>("counter");
@@ -65,8 +73,8 @@ namespace TextAnalyticsBot.WebApi
         {
             if (message.Type == "Ping")
             {
-                Message reply = message.CreateReplyMessage();
-                reply.Type = "Ping";
+                Message reply = message.CreateReplyMessage("You just pinged me.");
+                reply.Type = message.Type;
                 return reply;
             }
             else if (message.Type == "DeleteUserData")
@@ -76,8 +84,8 @@ namespace TextAnalyticsBot.WebApi
             }
             else if (message.Type == "BotAddedToConversation")
             {
-                Message reply = message.CreateReplyMessage("I'm still under development.");
-                reply.Type = "BotAddedToConversation";
+                Message reply = message.CreateReplyMessage("Hello, I am TextAnalyticsBot.");
+                reply.Type = message.Type;
                 return reply;
             }
             else if (message.Type == "BotRemovedFromConversation")
@@ -85,6 +93,9 @@ namespace TextAnalyticsBot.WebApi
             }
             else if (message.Type == "UserAddedToConversation")
             {
+                Message reply = message.CreateReplyMessage("Hello, I am TextAnalyticsBot. Please note that I am still under development. But you should be able to tell me your text expressions. I will try to analyze.");
+                reply.Type = message.Type;
+                return reply;
             }
             else if (message.Type == "UserRemovedFromConversation")
             {
