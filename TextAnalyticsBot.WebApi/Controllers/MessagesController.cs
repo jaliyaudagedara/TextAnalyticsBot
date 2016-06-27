@@ -28,14 +28,6 @@ namespace TextAnalyticsBot.WebApi
         /// </summary>
         public async Task<Message> Post([FromBody]Message message)
         {
-            //if (message == null)
-            //{
-            //    message = new Message();
-            //    Message reply = message.CreateReplyMessage("I'm still under development. Please try again later");
-            //    reply.Type = "Ping";
-            //    return reply;
-            //}
-
             if (message.Type == "Message")
             {
                 var counter = message.GetBotPerUserInConversationData<int>("counter");
