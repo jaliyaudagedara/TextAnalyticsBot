@@ -1,5 +1,5 @@
 # TextAnalyticsBot
-Using Microsoft Cognitive Services Text Analytics API. http://textanalyticsbot.azurewebsites.net/
+Text Analytics Bot using Microsoft Cognitive Services Text Analytics API. http://textanalyticsbot.azurewebsites.net/
 
 
 #Privacy statement
