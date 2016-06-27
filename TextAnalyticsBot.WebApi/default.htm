@@ -21,6 +21,13 @@
 
         <md-content layout="column" flex class="md-padding">
             <md-input-container class="md-block">
+                <label>Message Type</label>
+                <md-select ng-model="message.type">
+                    <md-option ng-repeat="messageTypes in messageTypes" value="{{messageTypes}}">{{messageTypes}}</md-option>
+                </md-select>
+            </md-input-container>
+
+            <md-input-container class="md-block">
                 <label>Input</label>
                 <textarea ng-model="message.text" md-maxlength="150" rows="5" md-select-on-focus></textarea>
             </md-input-container>

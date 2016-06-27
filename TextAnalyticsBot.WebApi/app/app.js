@@ -18,6 +18,17 @@ angular.module("TextAnalyticsBot", ["ngMaterial"])
 }])
 
 .controller("AppController", ["$scope", "AppService", function ($scope, AppService) {
+    $scope.messageTypes = [
+        "Message",
+        "Ping",
+        "DeleteUserData",
+        "BotAddedToConversation",
+        "BotRemovedFromConversation",
+        "UserAddedToConversation",
+        "UserRemovedFromConversation",
+        "EndOfConversation"
+    ];
+
     $scope.message = {
         type: "Message",
         text: "",

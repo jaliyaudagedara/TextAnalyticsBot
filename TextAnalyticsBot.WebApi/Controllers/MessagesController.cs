@@ -28,21 +28,28 @@ namespace TextAnalyticsBot.WebApi
         /// </summary>
         public async Task<Message> Post([FromBody]Message message)
         {
-            var counter = message.GetBotPerUserInConversationData<int>("counter");
-
-            TextAnalyticsMessage textAnalyticsMessage = new TextAnalyticsMessage();
-            textAnalyticsMessage.Documents.Add(new TextAnalyticsDocument()
+            if (message.Type == "Message")
             {
-                Id = Guid.NewGuid().ToString(),
-                Text = message.Text
-            });
+                var counter = message.GetBotPerUserInConversationData<int>("counter");
 
-            Dictionary<TextAnalyticsResultType, TextAnalyticsResult> result = await Utility.MakeRequests(BaseUrl, AccountKey, NumLanguages, textAnalyticsMessage);
+                TextAnalyticsMessage textAnalyticsMessage = new TextAnalyticsMessage();
+                textAnalyticsMessage.Documents.Add(new TextAnalyticsDocument()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Text = message.Text
+                });
 
-            Message replyMessage = message.CreateReplyMessage($"{FormatResultMessage(result)}");
-            replyMessage.SetBotPerUserInConversationData("counter", counter);
-            replyMessage.SetBotPerUserInConversationData("sentimentScore", result[TextAnalyticsResultType.Sentiment].Documents.FirstOrDefault().Score);
-            return replyMessage;
+                Dictionary<TextAnalyticsResultType, TextAnalyticsResult> result = await Utility.MakeRequests(BaseUrl, AccountKey, NumLanguages, textAnalyticsMessage);
+
+                Message replyMessage = message.CreateReplyMessage($"{FormatResultMessage(result)}");
+                replyMessage.SetBotPerUserInConversationData("counter", counter);
+                replyMessage.SetBotPerUserInConversationData("sentimentScore", result[TextAnalyticsResultType.Sentiment].Documents.FirstOrDefault().Score);
+                return replyMessage;
+            }
+            else
+            {
+                return HandleSystemMessage(message);
+            }
         }
 
         private string FormatResultMessage(Dictionary<TextAnalyticsResultType, TextAnalyticsResult> input)
@@ -52,6 +59,41 @@ namespace TextAnalyticsBot.WebApi
             sb.AppendFormat($"Key Phrases are : { string.Join(",", input[TextAnalyticsResultType.KeyPhrases].Documents.FirstOrDefault().KeyPhrases)} {Environment.NewLine}");
             sb.AppendFormat($"Sentiment is {input[TextAnalyticsResultType.Sentiment].Documents.FirstOrDefault().Score} {Environment.NewLine}");
             return sb.ToString();
+        }
+
+        private Message HandleSystemMessage(Message message)
+        {
+            if (message.Type == "Ping")
+            {
+                Message reply = message.CreateReplyMessage();
+                reply.Type = "Ping";
+                return reply;
+            }
+            else if (message.Type == "DeleteUserData")
+            {
+                // Implement user deletion here
+                // If we handle user deletion, return a real message
+            }
+            else if (message.Type == "BotAddedToConversation")
+            {
+                Message reply = message.CreateReplyMessage("I'm still under development.");
+                reply.Type = "BotAddedToConversation";
+                return reply;
+            }
+            else if (message.Type == "BotRemovedFromConversation")
+            {
+            }
+            else if (message.Type == "UserAddedToConversation")
+            {
+            }
+            else if (message.Type == "UserRemovedFromConversation")
+            {
+            }
+            else if (message.Type == "EndOfConversation")
+            {
+            }
+
+            return null;
         }
     }
 }
