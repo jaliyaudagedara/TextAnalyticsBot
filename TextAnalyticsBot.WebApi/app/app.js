@@ -1,6 +1,6 @@
 ﻿"use strict"
 
-angular.module("TextAnalyticsBot", ["ui.bootstrap"])
+angular.module("TextAnalyticsBot", ["ui.bootstrap", "angular-loading-bar"])
 
 .service("AppService", ["$http", function ($http) {
     this.postMessage = function (message) {

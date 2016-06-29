@@ -2,128 +2,131 @@
 <html ng-app="TextAnalyticsBot">
 <head>
     <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="bower_components/angular-loading-bar/build/loading-bar.min.css" rel="stylesheet" />
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+
+    <link href="scripts/css/custom.css" rel="stylesheet" />
 
     <script src="bower_components/jquery/jquery.min.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="bower_components/angular/angular.min.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script src="bower_components/angular-loading-bar/build/loading-bar.min.js"></script>
 
     <script src="app/app.js"></script>
 
     <title> Text Analytics Bot </title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <style>
-        .container-small, .container-large {
-            max-width: 100%;
-        }
-
-        @media (min-width: 768px) {
-            .container-small {
-                width: 300px;
-            }
-
-            .container-large {
-                width: 970px;
-            }
-        }
-
-        @media (min-width: 992px) {
-            .container-small {
-                width: 500px;
-            }
-
-            .container-large {
-                width: 1170px;
-            }
-        }
-
-        @media (min-width: 1200px) {
-            .container-small {
-                width: 700px;
-            }
-
-            .container-large {
-                width: 1500px;
-            }
-        }
-    </style>
 </head>
 <body>
     <div ng-controller="AppController">
-        <div class="container">
-
-            <div class="container container-large">
-                <div class="row">
-                    <div style="text-align:center">
-                        <h1>Text Analytics Bot</h1>
-                    </div>
+        <nav style="padding:15px;background: #2C3E50;">
+            <div class="row">
+                <div style="font-family:Montserrat,Helvetica,Arial,sans-serif;text-align:center;color:white">
+                    <h1>Text Analytics Bot</h1>
                 </div>
-
-                <div class="row" style="text-align:center">
-                    <div class="row">
-                        <p>Chat with me!</p>
-                    </div>
-
-                    <div class="row">
-                        <div class="embed-icon-list" data-reactid=".5.3">
-                            <a target="_blank" href='https://join.skype.com/bot/f5e155d7-0d51-41e8-b104-d96e8d341e13'>
-                                <img class="embed-channel-icon" src="https://skype.botframework.com/content/icon.png" data-reactid=".5.3.1">
-                            </a>
-                            <a target="_blank" style="margin-left:10px" href="https://slack.com/oauth/authorize?scope=incoming-webhook,bot&client_id=54637783285.54639173911&redirect_uri=https%3a%2f%2fslack.botframework.com%2fHome%2fauth&state=TextAnalyticsBot">
-                                <img class="embed-channel-icon" src="https://slack.botframework.com/content/icon.png" data-reactid=".5.3.2">
-                            </a>
-                            <a target="_blank" style="margin-left:10px" href="https://www.facebook.com/Text-Analytics-Bot-495416343985875/">
-                                <img class="embed-channel-icon" src="https://facebook.botframework.com/content/icon.png" data-reactid=".5.3.0">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="form-group">
-                            <label>Message Type</label>
-                            <select class="form-control" ng-options="messageTypes as messageTypes for messageTypes in messageTypes" ng-model="message.type"></select>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Input</label>
-                            <input type="text" class="form-control" ng-model="message.text" ng-enter="send()" />
-                        </div>
-
-                        <div class="form-group pull-right">
-                            <button type="button" class="btn btn-primary" ng-click="send()">Send</button>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Result</label>
-                            <textarea class="form-control" ng-model="message.result.text" rows="3" disabled></textarea>
+            </div>
+        </nav>
+        <div style="background-color:#485F8A;padding-bottom:20px">
+            <div class="container" style="padding-top:20px;color:white">
+                <div class="container container-large">
+                    <div class="row" style="text-align:center">
+                        <div class="row">
+                            <p>Chat with me!</p>
                         </div>
 
                         <div class="row">
-                            <div>
-                                <div class="row">
-                                    <div class="col-md-3" style="text-align:center">
-                                        Negative
-                                    </div>
-                                    <div class="col-md-6">
-                                        <uib-progressbar value="message.result.botPerUserInConversationData.sentimentScore*100"></uib-progressbar>
-                                    </div>
-                                    <div class="col-md-3" style="text-align:center">
-                                        Positive
+                            <div class="embed-icon-list" data-reactid=".5.3">
+                                <a target="_blank" href='https://join.skype.com/bot/f5e155d7-0d51-41e8-b104-d96e8d341e13'>
+                                    <img class="embed-channel-icon" src="https://skype.botframework.com/content/icon.png" data-reactid=".5.3.1" style="height:50px">
+                                </a>
+                                <a target="_blank" style="margin-left:10px" href="https://slack.com/oauth/authorize?scope=incoming-webhook,bot&client_id=54637783285.54639173911&redirect_uri=https%3a%2f%2fslack.botframework.com%2fHome%2fauth&state=TextAnalyticsBot">
+                                    <img class="embed-channel-icon" src="https://slack.botframework.com/content/icon.png" data-reactid=".5.3.2" style="height:50px">
+                                </a>
+                                <a target="_blank" style="margin-left:10px" href="https://www.facebook.com/Text-Analytics-Bot-495416343985875/">
+                                    <img class="embed-channel-icon" src="https://facebook.botframework.com/content/icon.png" data-reactid=".5.3.0" style="height:50px">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label>Message Type</label>
+                                <select class="form-control" ng-options="messageTypes as messageTypes for messageTypes in messageTypes" ng-model="message.type"></select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Input</label>
+                                <input type="text" class="form-control" ng-model="message.text" ng-enter="send()" />
+                            </div>
+
+                            <div class="form-group" style="text-align:right">
+                                <button type="button" class="btn btn-success" style="width:100px" ng-click="send()">Send</button>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Result</label>
+                                <textarea class="form-control" ng-model="message.result.text" rows="3" disabled></textarea>
+                            </div>
+
+                            <div class="row">
+                                <div>
+                                    <div class="row" ng-if="message.result.botPerUserInConversationData.sentimentScore > 0">
+                                        <div class="col-md-3" style="text-align:center">
+                                            Negative
+                                        </div>
+                                        <div class="col-md-6">
+                                            <uib-progressbar value="message.result.botPerUserInConversationData.sentimentScore*100" type="success"></uib-progressbar>
+                                        </div>
+                                        <div class="col-md-3" style="text-align:center">
+                                            Positive
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <iframe src="https://webchat.botframework.com/embed/TextAnalyticsBot?s=xKHgq5tD3dg.cwA.4y8.XwVp2yHb_6xJzQAYq3lpZiofOh3Jhje5ViaN6v3ddu0" height="400"></iframe>
+                        <div class="col-md-4">
+                            <iframe src="https://webchat.botframework.com/embed/TextAnalyticsBot?s=xKHgq5tD3dg.cwA.4y8.XwVp2yHb_6xJzQAYq3lpZiofOh3Jhje5ViaN6v3ddu0" style="border:none;height:400px"></iframe>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <footer class="text-center">
+            <div class="footer-above">
+                <div class="container">
+                    <div class="row">
+                        <div class="footer-col col-md-4">
+                            <h3>GitHub</h3>
+                            <p>Complete source code is hosted in GitHub. <a href="https://github.com/jaliyaudagedara/TextAnalyticsBot">Start Contributing</a> today</p>
+                        </div>
+                        <div class="footer-col col-md-4">
+                            <h3>Micrsoft Bot Framework</h3>
+                            <p>Find more information about Microsoft Bot Framework from <a href="https://dev.botframework.com/">here</a></p>
+                        </div>
+                        <div class="footer-col col-md-4">
+                            <h3><a href="https://www.microsoft.com/cognitive-services">Microsoft Cognitive Services</a></h3>
+                            <p>Text Analytics Bot uses <a href="https://www.microsoft.com/cognitive-services/en-us/text-analytics-api">Microsoft Cognitive Services</a> Text Analytics API</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-below">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            Copyright © Your Website 2016
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
     </div>
 
 </body>
