@@ -328,6 +328,7 @@
     <Content Include="bower_components\jquery\test\unit\traversing.js" />
     <Content Include="bower_components\jquery\test\unit\wrap.js" />
     <Content Include="bower_components\jquery\test\xhtml.php" />
+    <Content Include="content\images\TextAnalyticsBotLogo.png" />
     <Content Include="default.htm" />
     <Content Include="Global.asax" />
     <Content Include="scripts\ai.0.22.9-build00167.js" />
