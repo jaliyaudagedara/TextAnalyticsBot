@@ -49,6 +49,18 @@ angular.module("TextAnalyticsBot", ["ui.bootstrap", "angular-loading-bar"])
         result: {}
     };
 
+    $scope.getProgressBarType = function (value) {
+        var type = "success";
+
+        if (value < 50) {
+            type = "danger";
+        } else if (value == 50) {
+            type = "info";
+        }
+
+        return type;
+    }
+
     $scope.send = function () {
         AppService.postMessage($scope.message).then(function (result) {
             console.log(result.data);

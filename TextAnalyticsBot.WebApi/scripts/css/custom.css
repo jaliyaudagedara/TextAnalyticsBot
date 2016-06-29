@@ -32,6 +32,10 @@
             }
         }
 
+.iframe-container {
+     background:url(../../content/images/loader.gif) center center no-repeat;
+}
+
 footer {
     color: #fff;
 }
