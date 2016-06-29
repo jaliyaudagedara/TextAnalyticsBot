@@ -79,13 +79,13 @@
                             <div class="row">
                                 <div>
                                     <div class="row" ng-if="message.result.botPerUserInConversationData.sentimentScore > 0">
-                                        <div class="col-md-3" style="text-align:center">
+                                        <div class="col-md-2" style="text-align:center">
                                             Negative
                                         </div>
-                                        <div class="col-md-6">
-                                            <uib-progressbar value="message.result.botPerUserInConversationData.sentimentScore*100" type="success"></uib-progressbar>
+                                        <div class="col-md-8">
+                                            <uib-progressbar value="message.result.botPerUserInConversationData.sentimentScore*100" type="{{getProgressBarType(message.result.botPerUserInConversationData.sentimentScore*100)}}"></uib-progressbar>
                                         </div>
-                                        <div class="col-md-3" style="text-align:center">
+                                        <div class="col-md-2" style="text-align:center">
                                             Positive
                                         </div>
                                     </div>
@@ -93,7 +93,9 @@
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <iframe src="https://webchat.botframework.com/embed/TextAnalyticsBot?s=xKHgq5tD3dg.cwA.4y8.XwVp2yHb_6xJzQAYq3lpZiofOh3Jhje5ViaN6v3ddu0" style="border:none;height:400px"></iframe>
+                            <div class="iframe-container">
+                                <iframe src="https://webchat.botframework.com/embed/TextAnalyticsBot?s=xKHgq5tD3dg.cwA.4y8.XwVp2yHb_6xJzQAYq3lpZiofOh3Jhje5ViaN6v3ddu0" style="border:none;height:400px"></iframe>
+                            </div>
                         </div>
                     </div>
                 </div>
