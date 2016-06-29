@@ -32,6 +32,32 @@ namespace TextAnalyticsBot.WebApi
             {
                 var counter = message.GetBotPerUserInConversationData<int>("counter");
 
+                //string replyMessageText;
+                //DataModel.Luis.LuisQueryData LuisQueryData = await LuisUtil.GetEntityFromLuis(message.Text);
+                //if (LuisQueryData.Intents.Count() > 0)
+                //{
+                //    switch (LuisQueryData.Intents[0].Intent)
+                //    {
+                //        case "Welcome":
+                //            replyMessageText = "Hi, I am your bot!";
+                //            break;
+                //        case "GetEventDetails":
+                //            replyMessageText = LuisQueryData.Entities[0].Entity;
+                //            break;
+                //        default:
+                //            replyMessageText = "I am sorry, I didn't quite catch that.";
+                //            break;
+                //    }
+                //}
+                //else
+                //{
+                //    replyMessageText = "I am sorry, I didn't quite catch that.";
+                //}
+
+                //Message replyMessage = message.CreateReplyMessage(replyMessageText);
+                //replyMessage.SetBotPerUserInConversationData("counter", counter);
+                //return replyMessage;
+
                 TextAnalyticsMessage textAnalyticsMessage = new TextAnalyticsMessage();
                 textAnalyticsMessage.Documents.Add(new TextAnalyticsDocument()
                 {
@@ -39,7 +65,7 @@ namespace TextAnalyticsBot.WebApi
                     Text = message.Text
                 });
 
-                Dictionary<TextAnalyticsResultType, TextAnalyticsResult> result = await Utility.MakeRequests(BaseUrl, AccountKey, NumLanguages, textAnalyticsMessage);
+                Dictionary<TextAnalyticsResultType, TextAnalyticsResult> result = await TextAnalyticsUtil.MakeRequests(BaseUrl, AccountKey, NumLanguages, textAnalyticsMessage);
 
                 Message replyMessage = message.CreateReplyMessage($"{FormatResultMessage(result)}");
                 replyMessage.SetBotPerUserInConversationData("counter", counter);

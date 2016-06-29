@@ -40,6 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Luis\LuisEntity.cs" />
+    <Compile Include="Luis\LuisIntent.cs" />
+    <Compile Include="Luis\LuisQueryData.cs" />
     <Compile Include="TextAnalyticsDocument.cs" />
     <Compile Include="TextAnalyticsError.cs" />
     <Compile Include="TextAnalyticsLanguage.cs" />

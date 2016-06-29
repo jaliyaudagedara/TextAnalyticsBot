@@ -11,7 +11,7 @@ using TextAnalyticsBot.DataModel;
 
 namespace TextAnalyticsBot.Api
 {
-    public class Utility
+    public class TextAnalyticsUtil
     {
         public static async Task<Dictionary<TextAnalyticsResultType, TextAnalyticsResult>> MakeRequests(string baseUrl, string accountKey, int noOfLanguages, TextAnalyticsMessage documents)
         {
