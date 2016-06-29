@@ -1,6 +1,6 @@
 ﻿"use strict"
 
-angular.module("TextAnalyticsBot", ["ngMaterial"])
+angular.module("TextAnalyticsBot", ["ui.bootstrap"])
 
 .service("AppService", ["$http", function ($http) {
     this.postMessage = function (message) {
@@ -16,6 +16,20 @@ angular.module("TextAnalyticsBot", ["ngMaterial"])
         });
     };
 }])
+
+.directive('ngEnter', function () {
+    return function (scope, element, attrs) {
+        element.bind("keydown keypress", function (event) {
+            if(event.which === 13) {
+                scope.$apply(function (){
+                    scope.$eval(attrs.ngEnter);
+                });
+
+                event.preventDefault();
+            }
+        });
+    };
+})
 
 .controller("AppController", ["$scope", "AppService", function ($scope, AppService) {
     $scope.messageTypes = [

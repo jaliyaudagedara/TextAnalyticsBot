@@ -82,7 +82,7 @@ namespace TextAnalyticsBot.WebApi
             }
             else if (message.Type == "BotAddedToConversation")
             {
-                Message reply = message.CreateReplyMessage("Hello, I am TextAnalyticsBot.");
+                Message reply = message.CreateReplyMessage("Hello, I am Text Analytics Bot.");
                 reply.Type = message.Type;
                 return reply;
             }
@@ -91,7 +91,7 @@ namespace TextAnalyticsBot.WebApi
             }
             else if (message.Type == "UserAddedToConversation")
             {
-                Message reply = message.CreateReplyMessage("Hello, I am TextAnalyticsBot. Please note that I am still under development. But you should be able to send me your text expressions. I will try to analyze.");
+                Message reply = message.CreateReplyMessage("Hello, I am Text Analytics Bot. Please note that I am still under development. But you should be able to send me your text expressions. I will try to analyze.");
                 reply.Type = message.Type;
                 return reply;
             }

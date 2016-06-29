@@ -1,75 +1,125 @@
 ﻿<!DOCTYPE html>
 <html ng-app="TextAnalyticsBot">
 <head>
-    <link href="bower_components/angular-material/angular-material.min.css" rel="stylesheet" />
+    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
 
+    <script src="bower_components/jquery/jquery.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="bower_components/angular/angular.min.js"></script>
-    <script src="bower_components/angular-aria/angular-aria.js"></script>
-    <script src="bower_components/angular-animate/angular-animate.js"></script>
-    <script src="bower_components/angular-material/angular-material.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 
     <script src="app/app.js"></script>
 
     <title> Text Analytics Bot </title>
-    <meta charset="utf-8" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        .container-small, .container-large {
+            max-width: 100%;
+        }
+
+        @media (min-width: 768px) {
+            .container-small {
+                width: 300px;
+            }
+
+            .container-large {
+                width: 970px;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .container-small {
+                width: 500px;
+            }
+
+            .container-large {
+                width: 1170px;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .container-small {
+                width: 700px;
+            }
+
+            .container-large {
+                width: 1500px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div layout="column" ng-controller="AppController">
-        <div style="text-align:center">
-            <h1>Text Analytics Bot</h1>
-        </div>
+    <div ng-controller="AppController">
+        <div class="container">
 
-        <md-content layout="row">
-            <a target="_blank" href='https://join.skype.com/bot/f5e155d7-0d51-41e8-b104-d96e8d341e13'>
-                <img src='https://dev.botframework.com/Client/Images/Add-To-Skype-Buttons.png'>
-            </a>
-            <a target="_blank" style="margin-left:10px" href="https://slack.com/oauth/authorize?scope=incoming-webhook,bot&client_id=54637783285.54639173911&redirect_uri=https%3a%2f%2fslack.botframework.com%2fHome%2fauth&state=TextAnalyticsBot">
-                <img height="25" width="100" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x">
-            </a>
-            <a target="_blank" href="https://www.facebook.com/Text-Analytics-Bot-495416343985875/" style="margin-left:10px">
-                <img height="25" class="embed-channel-icon" src="https://facebook.botframework.com/content/icon.png" data-reactid=".5.7.0.0">
-            </a>
-        </md-content>
-
-        <md-content layout="column" flex class="md-padding">
-            <md-input-container class="md-block">
-                <label>Message Type</label>
-                <md-select ng-model="message.type">
-                    <md-option ng-repeat="messageTypes in messageTypes" value="{{messageTypes}}">{{messageTypes}}</md-option>
-                </md-select>
-            </md-input-container>
-
-            <md-input-container class="md-block">
-                <label>Input</label>
-                <textarea ng-model="message.text" md-maxlength="150" rows="5" md-select-on-focus></textarea>
-            </md-input-container>
-
-            <md-button class="md-raised md-primary" ng-click="send()">Send</md-button>
-
-            <md-input-container class="md-block">
-                <label>Result</label>
-                <textarea ng-model="message.result.text" rows="5" md-select-on-focus disabled></textarea>
-            </md-input-container>
-
-            <div ng-if="message.result.botPerUserInConversationData.sentimentScore>0">
-                <div layout="row">
-                    <div flex="20" style="text-align:center">
-                        Negative
+            <div class="container container-large">
+                <div class="row">
+                    <div style="text-align:center">
+                        <h1>Text Analytics Bot</h1>
                     </div>
-                    <div flex="70">
-                        <md-progress-linear md-mode="determinate" value="{{message.result.botPerUserInConversationData.sentimentScore*100}}"></md-progress-linear>
+                </div>
+
+                <div class="row" style="margin:10px; text-align:center">
+                    <div class="embed-icon-list" data-reactid=".5.3">
+                        <a target="_blank" href='https://join.skype.com/bot/f5e155d7-0d51-41e8-b104-d96e8d341e13'>
+                            <img class="embed-channel-icon" src="https://skype.botframework.com/content/icon.png" data-reactid=".5.3.1">
+                        </a>
+                        <a target="_blank" style="margin-left:10px" href="https://slack.com/oauth/authorize?scope=incoming-webhook,bot&client_id=54637783285.54639173911&redirect_uri=https%3a%2f%2fslack.botframework.com%2fHome%2fauth&state=TextAnalyticsBot">
+                            <img class="embed-channel-icon" src="https://slack.botframework.com/content/icon.png" data-reactid=".5.3.2">
+                        </a>
+                        <a target="_blank" style="margin-left:10px" href="https://www.facebook.com/Text-Analytics-Bot-495416343985875/">
+                            <img class="embed-channel-icon" src="https://facebook.botframework.com/content/icon.png" data-reactid=".5.3.0">
+                        </a>
                     </div>
-                    <div flex="20" style="text-align:center">
-                        Positive
+                </div>
+
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label>Message Type</label>
+                            <select class="form-control" ng-options="messageTypes as messageTypes for messageTypes in messageTypes" ng-model="message.type"></select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Input</label>
+                            <input type="text" class="form-control" ng-model="message.text" ng-enter="send()" />
+                        </div>
+
+                        <div class="form-group pull-right">
+                            <button type="button" class="btn btn-primary" ng-click="send()">Send</button>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Result</label>
+                            <textarea class="form-control" ng-model="message.result.text" rows="3" disabled></textarea>
+                        </div>
+
+                        <div class="row">
+                            <div >
+                                <div class="row">
+                                    <div class="col-md-3" style="text-align:center">
+                                        Negative
+                                    </div>
+                                    <div class="col-md-6">
+                                        <uib-progressbar value="message.result.botPerUserInConversationData.sentimentScore*100"></uib-progressbar>
+                                    </div>
+                                    <div class="col-md-3" style="text-align:center">
+                                        Positive
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <iframe src="https://webchat.botframework.com/embed/TextAnalyticsBot?s=xKHgq5tD3dg.cwA.4y8.XwVp2yHb_6xJzQAYq3lpZiofOh3Jhje5ViaN6v3ddu0" height="400"></iframe>
                     </div>
                 </div>
             </div>
-        </md-content>
-
-        <md-content layout="column">
-            <iframe src="https://webchat.botframework.com/embed/TextAnalyticsBot?s=xKHgq5tD3dg.cwA.4y8.XwVp2yHb_6xJzQAYq3lpZiofOh3Jhje5ViaN6v3ddu0" style="height: 300px; max-height: 300px;"></iframe>
-        </md-content>
+        </div>
     </div>
+
 </body>
 
 </html>
