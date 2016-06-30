@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TextAnalyticsBot.Api.TextAnalytics;
 using TextAnalyticsBot.DataModel;
 using TextAnalyticsBot.DataModel.Feedback;
 using TextAnalyticsBot.DataModel.Luis;
@@ -72,18 +73,33 @@ namespace TextAnalyticsBot.Api.Luis
         [LuisIntent("Welcome")]
         public async Task Welcome(IDialogContext context, LuisResult result)
         {
-            LuisQueryData luisQueryData = await LuisClient.SendRequest(result.Query);
+            string contextId = string.Empty;
+            context.PerUserInConversationData.TryGetValue<string>("contextId", out contextId);
+            
+            if (!string.IsNullOrEmpty(contextId))
+            {
+                context.PerUserInConversationData.RemoveValue("contextId");
+            }
 
-            string replyMessageText = "Hi there, I am your bot!";
-
-            await context.PostAsync(replyMessageText);
+            await context.PostAsync("Hi there, I am your Text Analytics Bot. Currently I am still under development. Anyway let's give a try. What do you want me to do? (Right now, I can only accept feedbacks for events/forums!)!");
             context.Wait(MessageReceived);
         }
+
+        //List<EntityRecommendation> Entities = new List<EntityRecommendation>();
 
         [LuisIntent("GetEventDetails")]
         public async Task GetEventDetails(IDialogContext context, LuisResult result)
         {
-            string contextId = "";
+            //foreach (var item in result.Entities)
+            //{
+            //    entities.Add(new EntityRecommendation()
+            //    {
+            //        Type = item.Type,
+            //        Entity = item.Entity
+            //    });
+            //}
+
+            string contextId = string.Empty;
             context.PerUserInConversationData.TryGetValue<string>("contextId", out contextId);
 
             LuisQueryData luisQueryData;
@@ -106,18 +122,18 @@ namespace TextAnalyticsBot.Api.Luis
             }
             else if (luisQueryData != null && luisQueryData.Dialog != null && luisQueryData.Dialog.Status == "Finished")
             {
-                var entities = new List<EntityRecommendation>(result.Entities);
-
                 StringBuilder sb = new StringBuilder();
 
                 var parameters = luisQueryData.TopScoringIntent.Actions.FirstOrDefault().Parameters;
                 foreach (var item in parameters)
                 {
-                    sb.AppendLine($"{item.Name} : {item.Value.FirstOrDefault().Entity}");
+                    sb.AppendLine(", ");
+                    sb.AppendLine($"{item.Value.FirstOrDefault().Type} : {item.Value.FirstOrDefault().Entity}");
                 }
-                await context.PostAsync(sb.ToString());
+                sb.Remove(0, 1);
 
-                PromptDialog.Confirm(context, OnEventInformationConfirmed, "Are the event details correct?", "Didn't get that!", promptStyle: PromptStyle.None);
+                await context.PostAsync(sb.ToString());
+                PromptDialog.Confirm(context, EventInformationConfirmed, "Are the event details correct?", "Didn't get that!", promptStyle: PromptStyle.None);
             }
             else
             {
@@ -125,6 +141,30 @@ namespace TextAnalyticsBot.Api.Luis
                 await context.PostAsync(replyMessageText);
                 context.Wait(MessageReceived);
             }
+        }
+
+        private async Task EventInformationConfirmed(IDialogContext context, IAwaitable<bool> result)
+        {
+            var isConfirmed = await result;
+            if (isConfirmed)
+            {
+                await context.PostAsync("Noted. you can now leave your feedback.");
+                context.Wait(FeedbackReceived);
+            }
+            else
+            {
+                //var feedbackForm = new FormDialog<Feedback>(new Feedback() { }, this.SubmitFeedbackForm, FormOptions.None, entities: Entities);
+                //context.Call<Feedback>(feedbackForm, EventInformationNotConfirmed);
+
+                await context.PostAsync("Oh, let's start over.");
+                context.Wait(MessageReceived);
+            }
+        }
+
+        private async Task EventInformationNotConfirmed(IDialogContext context, IAwaitable<Feedback> result)
+        {
+            Feedback f = await result;
+            context.Wait(MessageReceived);
         }
 
         private async Task FeedbackReceived(IDialogContext context, IAwaitable<Message> result)
@@ -138,7 +178,7 @@ namespace TextAnalyticsBot.Api.Luis
                 Text = message.Text
             });
 
-            Dictionary<TextAnalyticsResultType, TextAnalyticsResult> textAnalyticsResult = await TextAnalyticsClient.MakeRequests("https://westus.api.cognitive.microsoft.com", "f47633a4d0a74abb9282a9cc22a79925", 1, textAnalyticsMessage);
+            Dictionary<TextAnalyticsResultType, TextAnalyticsResult> textAnalyticsResult = await TextAnalyticsClient.SendRequest("https://westus.api.cognitive.microsoft.com", "f47633a4d0a74abb9282a9cc22a79925", 1, textAnalyticsMessage);
 
             Message replyMessage = message.CreateReplyMessage($"{FormatResultMessage(textAnalyticsResult)}");
             replyMessage.SetBotPerUserInConversationData("sentimentScore", textAnalyticsResult[TextAnalyticsResultType.Sentiment].Documents.FirstOrDefault().Score);
@@ -149,62 +189,18 @@ namespace TextAnalyticsBot.Api.Luis
         private string FormatResultMessage(Dictionary<TextAnalyticsResultType, TextAnalyticsResult> input)
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendFormat($"Language : {input[TextAnalyticsResultType.Languages].Documents.FirstOrDefault().DetectedLanguages.FirstOrDefault().Name} {Environment.NewLine}");
 
             List<string> keyPhrases = input[TextAnalyticsResultType.KeyPhrases].Documents.FirstOrDefault().KeyPhrases.Where(s => !string.IsNullOrEmpty(s)).ToList();
             if (keyPhrases != null && keyPhrases.Count > 0)
             {
-                sb.AppendFormat($"Key Phrases are : { string.Join(",", input[TextAnalyticsResultType.KeyPhrases].Documents.FirstOrDefault().KeyPhrases)} {Environment.NewLine}");
+                sb.AppendFormat($"Key Phrases are : { string.Join(",", input[TextAnalyticsResultType.KeyPhrases].Documents.FirstOrDefault().KeyPhrases)} {Environment.NewLine}.");
             }
 
-            sb.AppendFormat($"Sentiment is {input[TextAnalyticsResultType.Sentiment].Documents.FirstOrDefault().Score} {Environment.NewLine}");
+            double sentimentScore = input[TextAnalyticsResultType.Sentiment].Documents.FirstOrDefault().Score;
+            bool isPositive = sentimentScore < 0.5 ? false : true;
+            sb.AppendLine(isPositive ? "It seems that you are satisfied with the event content. I am sure organizers would love to see this feedback." : "I am sorry to hear that you not satisfied.");
+            sb.AppendLine("Thank you for your feedback.");
             return sb.ToString();
-        }
-
-        private  async Task OnEventInformationConfirmed(IDialogContext context, IAwaitable<bool> result)
-        {
-            var isConfirmed = await result;
-            if (isConfirmed)
-            {
-                await context.PostAsync("Confirmed. Please leave the feedback.");
-            }
-            context.Wait(FeedbackReceived);
-        }
-
-        public virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitable<Message> argument)
-        {
-            var message = await argument;
-            await context.PostAsync(string.Format("You said {0}. Done", message.Text));
-            context.PerUserInConversationData.SetValue("contextId", "");
-            context.Wait(MessageReceived);
-        }
-
-        private async Task SubmitFeedbackFormComplete(IDialogContext context, IAwaitable<Feedback> result)
-        {
-            Feedback feedback = null;
-            try
-            {
-                feedback = await result;
-            }
-            catch (OperationCanceledException)
-            {
-                await context.PostAsync("You canceled the form!");
-                return;
-            }
-
-            if (feedback != null)
-            {
-                await context.PostAsync("Your Feedback is for : " + $"{feedback.Country} : {feedback.Event} held on {feedback.DateTime}");
-            }
-            else
-            {
-                await context.PostAsync("Form returned empty response!");
-            }
-
-            context.Wait(MessageReceived);
-
-            //await context.PostAsync("Done");
-            //context.Wait(MessageReceived);
         }
     }
 }

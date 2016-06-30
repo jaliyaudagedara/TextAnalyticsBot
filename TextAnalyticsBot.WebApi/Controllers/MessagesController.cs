@@ -30,31 +30,38 @@ namespace TextAnalyticsBot.WebApi
         {
             var builder = new FormBuilder<Feedback>();
 
-            ActiveDelegate<Feedback> isCountry = (feedback) => string.IsNullOrEmpty(feedback.Country);
-            ActiveDelegate<Feedback> isEvent = (feedback) => string.IsNullOrEmpty(feedback.Event);
-            ActiveDelegate<Feedback> isDateTime = (feedback) => string.IsNullOrEmpty("HelloWorld");
-
-
             return builder
-                .Message("Welcome to Feedback bot!")
                 .Field(nameof(Feedback.Country))
                 .Field(nameof(Feedback.Event))
                 .Field(nameof(Feedback.DateTime))
-                .Confirm("Need country", isCountry)
-                .Message("Thanks for submitting your feedback!")
-                .OnCompletion(OnCompletion)
                 .Build();
-        }
-
-        private static Task OnCompletion(IDialogContext context, Feedback state)
-        {
-            Feedback f = state;
-            return Task.FromResult(0);
         }
 
         internal static IDialog<Feedback> MakeRoot()
         {
-            return Chain.From(() => new SubmitFeedbackDialog(BuildForm));
+            return Chain.From(() => new SubmitFeedbackDialog(BuildForm)).Do(async (context, feedback) =>
+            {
+                try
+                {
+                    var completed = await feedback;
+
+                    // Actually write to database
+                    await context.PostAsync("Processed your feedback!");
+                }
+                catch (FormCanceledException<Feedback> e)
+                {
+                    string reply;
+                    if (e.InnerException == null)
+                    {
+                        reply = $"You quit on {e.Last}--maybe you can finish next time!";
+                    }
+                    else
+                    {
+                        reply = "Sorry, I've had a short circuit.  Please try again.";
+                    }
+                    await context.PostAsync(reply);
+                }
+            });
         }
 
         /// <summary>

@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 using System.Web;
 using TextAnalyticsBot.DataModel;
 
-namespace TextAnalyticsBot.Api
+namespace TextAnalyticsBot.Api.TextAnalytics
 {
     public class TextAnalyticsClient
     {
-        public static async Task<Dictionary<TextAnalyticsResultType, TextAnalyticsResult>> MakeRequests(string baseUrl, string accountKey, int noOfLanguages, TextAnalyticsMessage documents)
+        public static async Task<Dictionary<TextAnalyticsResultType, TextAnalyticsResult>> SendRequest(string baseUrl, string accountKey, int noOfLanguages, TextAnalyticsMessage documents)
         {
             Dictionary<TextAnalyticsResultType, TextAnalyticsResult> result = new Dictionary<TextAnalyticsResultType, TextAnalyticsResult>();
 
