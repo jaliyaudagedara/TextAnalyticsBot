@@ -37,8 +37,16 @@ namespace TextAnalyticsBot.Api.Luis
                     LuisQueryData luisQueryData = JsonConvert.DeserializeObject<LuisQueryData>(jsonResponse);
                     return luisQueryData;
                 }
+
+                try
+                {
+                    throw new HttpRequestException($"Fatal: Sorry! There was an error processing this phrase: HTTP response from LUIS : {response.ReasonPhrase}");
+                }
+                catch (HttpRequestException ex)
+                {
+                    throw ex;
+                }
             }
-            return null;
         }
     }
 }

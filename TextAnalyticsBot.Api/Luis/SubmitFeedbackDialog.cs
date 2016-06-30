@@ -75,13 +75,13 @@ namespace TextAnalyticsBot.Api.Luis
         {
             string contextId = string.Empty;
             context.PerUserInConversationData.TryGetValue<string>("contextId", out contextId);
-            
+
             if (!string.IsNullOrEmpty(contextId))
             {
                 context.PerUserInConversationData.RemoveValue("contextId");
             }
 
-            await context.PostAsync("Hi there, I am your Text Analytics Bot. Currently I am still under development. Anyway let's give a try. What do you want me to do? (Right now, I can only accept feedbacks for events/forums!)!");
+            await context.PostAsync("Hi there, I am your Text Analytics Bot. Currently I am still under development. Anyway let's give a try. What do you want me to do? (Right now, I can only accept feedbacks for events/forums!)");
             context.Wait(MessageReceived);
         }
 
@@ -102,14 +102,22 @@ namespace TextAnalyticsBot.Api.Luis
             string contextId = string.Empty;
             context.PerUserInConversationData.TryGetValue<string>("contextId", out contextId);
 
-            LuisQueryData luisQueryData;
-            if (string.IsNullOrEmpty(contextId))
+            LuisQueryData luisQueryData = null;
+            try
             {
-                luisQueryData = await LuisClient.SendRequest(result.Query);
+                if (string.IsNullOrEmpty(contextId))
+                {
+                    luisQueryData = await LuisClient.SendRequest(result.Query);
+                }
+                else
+                {
+                    luisQueryData = await LuisClient.SendRequest(result.Query, contextId);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                luisQueryData = await LuisClient.SendRequest(result.Query, contextId);
+                await context.PostAsync(ex.Message);
+                context.Wait(MessageReceived);
             }
 
             if (luisQueryData != null && luisQueryData.Dialog != null && luisQueryData.Dialog.Status == "Question")
