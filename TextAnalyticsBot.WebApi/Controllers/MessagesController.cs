@@ -119,7 +119,7 @@ namespace TextAnalyticsBot.WebApi
             }
             else if (message.Type == "UserAddedToConversation")
             {
-                Message reply = message.CreateReplyMessage("Hello, I am Text Analytics Bot. Please note that I am still under development. But you should be able to send me your text expressions. I will try to analyze.");
+                Message reply = message.CreateReplyMessage("Hi! I'm Text Analytics Bot. Say \"hi\" if you'd like to chat.");
                 reply.Type = message.Type;
                 return reply;
             }
