@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace TextAnalyticsBot.DataModel.Luis
 {
-    public class LuisIntent
+    public class LuisParameterValue
     {
-        public string Intent { get; set; }
+        public string Entity { get; set; }
+        public string Type { get; set; }
         public float Score { get; set; }
-        public List<LuisAction> Actions { get; set; }
     }
 }

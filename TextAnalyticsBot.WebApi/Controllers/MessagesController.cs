@@ -1,4 +1,6 @@
-﻿using Microsoft.Bot.Connector;
+﻿using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.FormFlow;
+using Microsoft.Bot.Connector;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -7,7 +9,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using TextAnalyticsBot.Api;
+using TextAnalyticsBot.Api.Luis;
 using TextAnalyticsBot.DataModel;
+using TextAnalyticsBot.DataModel.Feedback;
 
 namespace TextAnalyticsBot.WebApi
 {
@@ -15,12 +19,43 @@ namespace TextAnalyticsBot.WebApi
     /// Class MessagesController.
     /// </summary>
     /// <seealso cref="System.Web.Http.ApiController" />
-    //[BotAuthentication()]
+    [BotAuthentication()]
     public class MessagesController : ApiController
     {
         private string BaseUrl = ConfigurationManager.AppSettings["BaseUrl"];
         private string AccountKey = ConfigurationManager.AppSettings["AccountKey"];
         private int NumLanguages = Convert.ToInt32(ConfigurationManager.AppSettings["NumLanguages"]);
+
+        private static IForm<Feedback> BuildForm()
+        {
+            var builder = new FormBuilder<Feedback>();
+
+            ActiveDelegate<Feedback> isCountry = (feedback) => string.IsNullOrEmpty(feedback.Country);
+            ActiveDelegate<Feedback> isEvent = (feedback) => string.IsNullOrEmpty(feedback.Event);
+            ActiveDelegate<Feedback> isDateTime = (feedback) => string.IsNullOrEmpty("HelloWorld");
+
+
+            return builder
+                .Message("Welcome to Feedback bot!")
+                .Field(nameof(Feedback.Country))
+                .Field(nameof(Feedback.Event))
+                .Field(nameof(Feedback.DateTime))
+                .Confirm("Need country", isCountry)
+                .Message("Thanks for submitting your feedback!")
+                .OnCompletion(OnCompletion)
+                .Build();
+        }
+
+        private static Task OnCompletion(IDialogContext context, Feedback state)
+        {
+            Feedback f = state;
+            return Task.FromResult(0);
+        }
+
+        internal static IDialog<Feedback> MakeRoot()
+        {
+            return Chain.From(() => new SubmitFeedbackDialog(BuildForm));
+        }
 
         /// <summary>
         /// POST: api/Messages
@@ -30,47 +65,7 @@ namespace TextAnalyticsBot.WebApi
         {
             if (message.Type == "Message")
             {
-                var counter = message.GetBotPerUserInConversationData<int>("counter");
-
-                //string replyMessageText;
-                //DataModel.Luis.LuisQueryData LuisQueryData = await LuisUtil.GetEntityFromLuis(message.Text);
-                //if (LuisQueryData.Intents.Count() > 0)
-                //{
-                //    switch (LuisQueryData.Intents[0].Intent)
-                //    {
-                //        case "Welcome":
-                //            replyMessageText = "Hi, I am your bot!";
-                //            break;
-                //        case "GetEventDetails":
-                //            replyMessageText = LuisQueryData.Entities[0].Entity;
-                //            break;
-                //        default:
-                //            replyMessageText = "I am sorry, I didn't quite catch that.";
-                //            break;
-                //    }
-                //}
-                //else
-                //{
-                //    replyMessageText = "I am sorry, I didn't quite catch that.";
-                //}
-
-                //Message replyMessage = message.CreateReplyMessage(replyMessageText);
-                //replyMessage.SetBotPerUserInConversationData("counter", counter);
-                //return replyMessage;
-
-                TextAnalyticsMessage textAnalyticsMessage = new TextAnalyticsMessage();
-                textAnalyticsMessage.Documents.Add(new TextAnalyticsDocument()
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Text = message.Text
-                });
-
-                Dictionary<TextAnalyticsResultType, TextAnalyticsResult> result = await TextAnalyticsUtil.MakeRequests(BaseUrl, AccountKey, NumLanguages, textAnalyticsMessage);
-
-                Message replyMessage = message.CreateReplyMessage($"{FormatResultMessage(result)}");
-                replyMessage.SetBotPerUserInConversationData("counter", counter);
-                replyMessage.SetBotPerUserInConversationData("sentimentScore", result[TextAnalyticsResultType.Sentiment].Documents.FirstOrDefault().Score);
-                return replyMessage;
+                return await Conversation.SendAsync(message, MakeRoot);
             }
             else
             {
