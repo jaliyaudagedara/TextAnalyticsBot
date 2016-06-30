@@ -198,7 +198,7 @@ namespace TextAnalyticsBot.Api.Luis
 
             double sentimentScore = input[TextAnalyticsResultType.Sentiment].Documents.FirstOrDefault().Score;
             bool isPositive = sentimentScore < 0.5 ? false : true;
-            sb.AppendLine(isPositive ? "It seems that you are satisfied with the event content. I am sure organizers would love to see this feedback." : "I am sorry to hear that you not satisfied.");
+            sb.AppendLine(isPositive ? "It seems that you are satisfied with the event content. I am sure organizers would love to see this feedback." : "I am sorry to hear that you are not satisfied.");
             sb.AppendLine("Thank you for your feedback.");
             return sb.ToString();
         }
