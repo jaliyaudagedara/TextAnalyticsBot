@@ -8,7 +8,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
-using TextAnalyticsBot.Api;
 using TextAnalyticsBot.Api.Luis;
 using TextAnalyticsBot.DataModel;
 using TextAnalyticsBot.DataModel.Feedback;
