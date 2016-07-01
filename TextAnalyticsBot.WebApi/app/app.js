@@ -32,39 +32,5 @@ angular.module("TextAnalyticsBot", ["ui.bootstrap", "angular-loading-bar"])
 })
 
 .controller("AppController", ["$scope", "AppService", function ($scope, AppService) {
-    $scope.messageTypes = [
-        "Message",
-        "Ping",
-        "DeleteUserData",
-        "BotAddedToConversation",
-        "BotRemovedFromConversation",
-        "UserAddedToConversation",
-        "UserRemovedFromConversation",
-        "EndOfConversation"
-    ];
-
-    $scope.message = {
-        type: "Message",
-        text: "",
-        result: {}
-    };
-
-    $scope.getProgressBarType = function (value) {
-        var type = "success";
-
-        if (value < 50) {
-            type = "danger";
-        } else if (value == 50) {
-            type = "info";
-        }
-
-        return type;
-    }
-
-    $scope.send = function () {
-        AppService.postMessage($scope.message).then(function (result) {
-            console.log(result.data);
-            $scope.message.result = result.data;
-        });
-    };
+    
 }]);

@@ -25,19 +25,16 @@ namespace TextAnalyticsBot.Api.TextAnalytics
 
                 byte[] byteData = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(documents));
 
-                // Detect key phrases:
                 var uri = "text/analytics/v2.0/keyPhrases";
                 var response = await CallEndpoint(client, uri, byteData);
                 result.Add(TextAnalyticsResultType.KeyPhrases, JsonConvert.DeserializeObject<TextAnalyticsResult>(response));
 
-                // Detect language:
                 var queryString = HttpUtility.ParseQueryString(string.Empty);
                 queryString["numberOfLanguagesToDetect"] = noOfLanguages.ToString(CultureInfo.InvariantCulture);
                 uri = "text/analytics/v2.0/languages?" + queryString;
                 response = await CallEndpoint(client, uri, byteData);
                 result.Add(TextAnalyticsResultType.Languages, JsonConvert.DeserializeObject<TextAnalyticsResult>(response));
 
-                // Detect sentiment:
                 uri = "text/analytics/v2.0/sentiment";
                 response = await CallEndpoint(client, uri, byteData);
                 result.Add(TextAnalyticsResultType.Sentiment, JsonConvert.DeserializeObject<TextAnalyticsResult>(response));

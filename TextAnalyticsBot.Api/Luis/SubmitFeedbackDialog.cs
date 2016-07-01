@@ -5,6 +5,7 @@ using Microsoft.Bot.Builder.Luis.Models;
 using Microsoft.Bot.Connector;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,49 +20,16 @@ namespace TextAnalyticsBot.Api.Luis
     [Serializable]
     public class SubmitFeedbackDialog : LuisDialog<Feedback>
     {
+        private string BaseUrl = ConfigurationManager.AppSettings["BaseUrl"];
+        private string AccountKey = ConfigurationManager.AppSettings["AccountKey"];
+        private int NumLanguages = Convert.ToInt32(ConfigurationManager.AppSettings["NumLanguages"]);
+
         private readonly BuildFormDelegate<Feedback> SubmitFeedbackForm;
 
         public SubmitFeedbackDialog(BuildFormDelegate<Feedback> submitFeedbackForm)
         {
             this.SubmitFeedbackForm = submitFeedbackForm;
         }
-
-        //public string GetMessageFromLuisQueryData(LuisQueryData luisQueryData)
-        //{
-        //    string replyMessageText = "I am sorry, I didn't quite catch that.";
-
-        //    if (luisQueryData.Intents == null && luisQueryData.TopScoringIntent != null)
-        //    {
-        //        switch (luisQueryData.TopScoringIntent.Intent)
-        //        {
-        //            case "Welcome":
-        //                replyMessageText = "Hi, I am your bot!";
-        //                break;
-        //            case "GetEventDetails":
-        //                replyMessageText = "Something";
-        //                break;
-        //            default:
-        //                replyMessageText = "I am sorry, I didn't quite catch that.";
-        //                break;
-        //        }
-        //    }
-        //    else if (luisQueryData.Intents.Count() > 0)
-        //    {
-        //        switch (luisQueryData.Intents.FirstOrDefault().Intent)
-        //        {
-        //            case "Welcome":
-        //                replyMessageText = "Hi, I am your bot!";
-        //                break;
-        //            case "GetEventDetails":
-        //                replyMessageText = "Something";
-        //                break;
-        //            default:
-        //                replyMessageText = "I am sorry, I didn't quite catch that.";
-        //                break;
-        //        }
-        //    }
-        //    return replyMessageText;
-        //}
 
         [LuisIntent("")]
         public async Task None(IDialogContext context, LuisResult result)
@@ -85,20 +53,9 @@ namespace TextAnalyticsBot.Api.Luis
             context.Wait(MessageReceived);
         }
 
-        //List<EntityRecommendation> Entities = new List<EntityRecommendation>();
-
         [LuisIntent("GetEventDetails")]
         public async Task GetEventDetails(IDialogContext context, LuisResult result)
         {
-            //foreach (var item in result.Entities)
-            //{
-            //    entities.Add(new EntityRecommendation()
-            //    {
-            //        Type = item.Type,
-            //        Entity = item.Entity
-            //    });
-            //}
-
             string contextId = string.Empty;
             context.PerUserInConversationData.TryGetValue<string>("contextId", out contextId);
 
@@ -161,9 +118,6 @@ namespace TextAnalyticsBot.Api.Luis
             }
             else
             {
-                //var feedbackForm = new FormDialog<Feedback>(new Feedback() { }, this.SubmitFeedbackForm, FormOptions.None, entities: Entities);
-                //context.Call<Feedback>(feedbackForm, EventInformationNotConfirmed);
-
                 await context.PostAsync("Oh, let's start over.");
                 context.Wait(MessageReceived);
             }
@@ -186,7 +140,7 @@ namespace TextAnalyticsBot.Api.Luis
                 Text = message.Text
             });
 
-            Dictionary<TextAnalyticsResultType, TextAnalyticsResult> textAnalyticsResult = await TextAnalyticsClient.SendRequest("https://westus.api.cognitive.microsoft.com", "f47633a4d0a74abb9282a9cc22a79925", 1, textAnalyticsMessage);
+            Dictionary<TextAnalyticsResultType, TextAnalyticsResult> textAnalyticsResult = await TextAnalyticsClient.SendRequest(BaseUrl, AccountKey, NumLanguages, textAnalyticsMessage);
 
             Message replyMessage = message.CreateReplyMessage($"{FormatResultMessage(textAnalyticsResult)}");
             replyMessage.SetBotPerUserInConversationData("sentimentScore", textAnalyticsResult[TextAnalyticsResultType.Sentiment].Documents.FirstOrDefault().Score);
