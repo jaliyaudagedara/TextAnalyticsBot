@@ -1,29 +1,36 @@
-﻿using Microsoft.Bot.Builder.Dialogs;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.FormFlow;
 using Microsoft.Bot.Connector;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web.Http;
 using TextAnalyticsBot.Api.Luis;
 using TextAnalyticsBot.DataModel;
 using TextAnalyticsBot.DataModel.Feedback;
+using TextAnalyticsBot.WebApi.Model;
 
-namespace TextAnalyticsBot.WebApi
+namespace TextAnalyticsBot.WebApi.Controllers
 {
-    /// <summary>
-    /// Class MessagesController.
-    /// </summary>
-    /// <seealso cref="System.Web.Http.ApiController" />
-    [BotAuthentication()]
-    public class MessagesController : ApiController
+    [Route("api/[controller]")]
+    public class MessagesController : Controller
     {
-        private string BaseUrl = ConfigurationManager.AppSettings["BaseUrl"];
-        private string AccountKey = ConfigurationManager.AppSettings["AccountKey"];
-        private int NumLanguages = Convert.ToInt32(ConfigurationManager.AppSettings["NumLanguages"]);
+        private string BaseUrl = string.Empty;
+        private string AccountKey = string.Empty;
+        private int NumLanguages = 0;
+        private AppSettings settings;
+
+        public MessagesController(IOptions<AppSettings> settings)
+        {
+            this.settings = settings.Value;
+
+            BaseUrl = this.settings.BaseUrl;
+            AccountKey = this.settings.AccountKey;
+            NumLanguages = this.settings.NumLanguages;
+        }
 
         private static IForm<Feedback> BuildForm()
         {
@@ -67,6 +74,7 @@ namespace TextAnalyticsBot.WebApi
         /// POST: api/Messages
         /// Receive a message from a user and reply to it
         /// </summary>
+        [HttpPost]
         public async Task<Message> Post([FromBody]Message message)
         {
             if (message.Type == "Message")

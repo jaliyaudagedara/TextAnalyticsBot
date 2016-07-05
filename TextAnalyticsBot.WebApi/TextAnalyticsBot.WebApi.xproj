@@ -6,8 +6,8 @@
   </PropertyGroup>
   <Import Project="$(VSToolsPath)\DotNet\Microsoft.DotNet.Props" Condition="'$(VSToolsPath)' != ''" />
   <PropertyGroup Label="Globals">
-    <ProjectGuid>3e099b98-b805-437f-b76f-5b58763dd787</ProjectGuid>
-    <RootNamespace>TextAnalyticsBot.WebApp</RootNamespace>
+    <ProjectGuid>b8cc71fd-ba1d-4006-9e36-eb67a377b3cd</ProjectGuid>
+    <RootNamespace>TextAnalyticsBot.WebApi</RootNamespace>
     <BaseIntermediateOutputPath Condition="'$(BaseIntermediateOutputPath)'=='' ">.\obj</BaseIntermediateOutputPath>
     <OutputPath Condition="'$(OutputPath)'=='' ">.\bin\</OutputPath>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
@@ -16,7 +16,8 @@
     <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <ItemGroup>
-    <DnxInvisibleContent Include=".bowerrc" />
+    <ProjectReference Include="..\TextAnalyticsBot.Api\TextAnalyticsBot.Api.csproj" />
+    <ProjectReference Include="..\TextAnalyticsBot.DataModel\TextAnalyticsBot.DataModel.csproj" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\DotNet.Web\Microsoft.DotNet.Web.targets" Condition="'$(VSToolsPath)' != ''" />
 </Project>

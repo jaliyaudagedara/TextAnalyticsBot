@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html ng-app="TextAnalyticsBot">
+<head>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/lib/angular-loading-bar/build/loading-bar.min.css" rel="stylesheet" />
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+
+    <link href="~/css/site.css" rel="stylesheet" />
+
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/lib/angular/angular.min.js"></script>
+    <script src="~/lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script src="~/lib/angular-loading-bar/build/loading-bar.min.js"></script>
+
+    <script src="~/js/site.js"></script>
+
+    <title> Text Analytics Bot </title>
+    <link rel="icon" href="~/images/TextAnalyticsBotLogo.png">
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <div ng-controller="AppController">
+        <nav style="padding:15px;background: #2C3E50;">
+            <div class="row">
+                <div style="font-family:Montserrat,Helvetica,Arial,sans-serif;text-align:center;color:white">
+                    <h1>Text Analytics Bot</h1>
+                </div>
+            </div>
+        </nav>
+        <div style="background-color:#485F8A;padding-bottom:20px">
+            <div class="container" style="padding-top:20px;color:white">
+                <div class="container container-large">
+                    <div class="row" style="text-align:center">
+                        <div class="row" style="text-align:center;font-family: Lato,'Helvetica Neue',Helvetica,Arial,sans-serif;font-size: 18px;">
+                            <p>Find me on following channels!</p>
+                        </div>
+
+                        <div class="row">
+                            <div class="embed-icon-list" data-reactid=".5.3">
+                                <a target="_blank" href='https://join.skype.com/bot/f5e155d7-0d51-41e8-b104-d96e8d341e13'>
+                                    <img class="embed-channel-icon" src="https://skype.botframework.com/content/icon.png" data-reactid=".5.3.1" style="height:50px">
+                                </a>
+                                <a target="_blank" style="margin-left:10px" href="https://slack.com/oauth/authorize?scope=incoming-webhook,bot&client_id=54637783285.54639173911&redirect_uri=https%3a%2f%2fslack.botframework.com%2fHome%2fauth&state=TextAnalyticsBot">
+                                    <img class="embed-channel-icon" src="https://slack.botframework.com/content/icon.png" data-reactid=".5.3.2" style="height:50px">
+                                </a>
+                                <a target="_blank" style="margin-left:10px" href="https://www.facebook.com/Text-Analytics-Bot-495416343985875/">
+                                    <img class="embed-channel-icon" src="https://facebook.botframework.com/content/icon.png" data-reactid=".5.3.0" style="height:50px">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-top:20px">
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-lg-12" style="font-family:Montserrat,'Helvetica Neue',Helvetica,Arial,sans-serif;text-transform: uppercase;font-weight: 700;">
+                                    <h2>What is Text Analytics Bot</h2>
+                                </div>
+                            </div>
+
+                            <div style="text-align:justify;font-family: Lato,'Helvetica Neue',Helvetica,Arial,sans-serif;font-size: 20px;">
+                                <p>
+                                    Text Analytics Bot is built using Microsoft Bot Framework and it's powered by Language Understanding Intelligent Service (LUIS) and Text Analytics API which is available with Microsoft Cognitive Services.
+                                </p>
+                                <p>
+                                    You can initiate the dialog by greeting to the bot. As this bot is still learning his stuff out, currently you can only submit feedback for an event, forum etc. You can trigger that intent by sending something like "submit feedback, share feedback etc".
+                                </p>
+                                <p>
+                                    Please do use this bot and help him train himself. And of course, your contributions are most welcome to improve his functionality. Join <a target="_blank" href="https://github.com/jaliyaudagedara/TextAnalyticsBot">now</a>.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="iframe-container" style="margin-top: 20px;">
+                                <iframe src="https://webchat.botframework.com/embed/TextAnalyticsBot?s=xKHgq5tD3dg.cwA.4y8.XwVp2yHb_6xJzQAYq3lpZiofOh3Jhje5ViaN6v3ddu0" style="border:none;height:400px"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="text-center">
+            <div class="footer-above">
+                <div class="container">
+                    <div class="row">
+                        <div class="footer-col col-md-4">
+                            <h3>GitHub</h3>
+                            <p>Complete source code is hosted in GitHub. <a target="_blank" href="https://github.com/jaliyaudagedara/TextAnalyticsBot">Start Contributing</a> today</p>
+                        </div>
+                        <div class="footer-col col-md-4">
+                            <h3>Micrsoft Bot Framework</h3>
+                            <p>Find more information about Microsoft Bot Framework from <a target="_blank" href="https://dev.botframework.com/">here</a></p>
+                        </div>
+                        <div class="footer-col col-md-4">
+                            <h3><a target="_blank" href="https://www.microsoft.com/cognitive-services">Microsoft Cognitive Services</a></h3>
+                            <p>Text Analytics Bot uses Microsoft Cognitive Services <a target="_blank" href="https://www.microsoft.com/cognitive-services/en-us/language-understanding-intelligent-service-luis">LUIS</a> and <a target="_blank" href="https://www.microsoft.com/cognitive-services/en-us/text-analytics-api">Text Analytics API</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-below">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            Copyright © Text Analytics Bot 2016
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+</body>
+
+</html>
