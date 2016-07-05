@@ -1,0 +1,17 @@
+{
+  "name": "TextAnalyticsBot.WebApp",
+  "homepage": "https://github.com/jaliyaudagedara/TextAnalyticsBot",
+  "authors": [
+    "Jaliya Udagedara <jaliya.udagedara@hotmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

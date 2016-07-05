@@ -1,0 +1,68 @@
+{
+  "version": 2,
+  "exports": {
+    "TextAnalyticsBot.Api/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.6.1",
+      "compile": {
+        "bin/Debug/TextAnalyticsBot.Api.dll": {}
+      },
+      "runtime": {
+        "../packages/Autofac.3.5.2/lib/net40/Autofac.dll": {},
+        "../packages/Chronic.Signed.0.3.2/lib/net40/Chronic.dll": {},
+        "../packages/Microsoft.AspNet.WebApi.Client.5.2.3/lib/net45/System.Net.Http.Formatting.dll": {},
+        "../packages/Microsoft.AspNet.WebApi.Core.5.2.3/lib/net45/System.Web.Http.dll": {},
+        "../packages/Microsoft.Bot.Builder.1.2.5/lib/net46/Microsoft.Bot.Builder.dll": {},
+        "../packages/Microsoft.Bot.Connector.1.1.0.0/lib/net45/Microsoft.Bot.Connector.dll": {},
+        "../packages/Microsoft.CodeAnalysis.CSharp.1.3.2/lib/net45/Microsoft.CodeAnalysis.CSharp.dll": {},
+        "../packages/Microsoft.CodeAnalysis.CSharp.Scripting.1.3.2/lib/dotnet/Microsoft.CodeAnalysis.CSharp.Scripting.dll": {},
+        "../packages/Microsoft.CodeAnalysis.Common.1.3.2/lib/net45/Microsoft.CodeAnalysis.dll": {},
+        "../packages/Microsoft.CodeAnalysis.Scripting.Common.1.3.2/lib/dotnet/Microsoft.CodeAnalysis.Scripting.dll": {},
+        "../packages/Microsoft.WindowsAzure.ConfigurationManager.3.2.1/lib/net40/Microsoft.WindowsAzure.Configuration.dll": {},
+        "../packages/Newtonsoft.Json.9.0.1/lib/net45/Newtonsoft.Json.dll": {},
+        "../packages/System.AppContext.4.1.0/lib/net46/System.AppContext.dll": {},
+        "../packages/System.Collections.Immutable.1.2.0/lib/portable-net45+win8+wp8+wpa81/System.Collections.Immutable.dll": {},
+        "../packages/System.Console.4.0.0/lib/net46/System.Console.dll": {},
+        "../packages/System.Diagnostics.FileVersionInfo.4.0.0/lib/net46/System.Diagnostics.FileVersionInfo.dll": {},
+        "../packages/System.Diagnostics.StackTrace.4.0.1/lib/net46/System.Diagnostics.StackTrace.dll": {},
+        "../packages/System.IO.FileSystem.4.0.1/lib/net46/System.IO.FileSystem.dll": {},
+        "../packages/System.IO.FileSystem.Primitives.4.0.1/lib/net46/System.IO.FileSystem.Primitives.dll": {},
+        "../packages/System.Reflection.Metadata.1.3.0/lib/portable-net45+win8/System.Reflection.Metadata.dll": {},
+        "../packages/System.Security.Cryptography.Algorithms.4.2.0/lib/net461/System.Security.Cryptography.Algorithms.dll": {},
+        "../packages/System.Security.Cryptography.Encoding.4.0.0/lib/net46/System.Security.Cryptography.Encoding.dll": {},
+        "../packages/System.Security.Cryptography.Primitives.4.0.0/lib/net46/System.Security.Cryptography.Primitives.dll": {},
+        "../packages/System.Security.Cryptography.X509Certificates.4.1.0/lib/net461/System.Security.Cryptography.X509Certificates.dll": {},
+        "../packages/System.Text.Encoding.CodePages.4.0.1/lib/net46/System.Text.Encoding.CodePages.dll": {},
+        "../packages/System.Threading.Thread.4.0.0/lib/net46/System.Threading.Thread.dll": {},
+        "../packages/System.Xml.XPath.4.0.1/lib/net46/System.Xml.XPath.dll": {},
+        "../packages/System.Xml.XPath.XDocument.4.0.1/lib/net46/System.Xml.XPath.XDocument.dll": {},
+        "../packages/System.Xml.XmlDocument.4.0.1/lib/net46/System.Xml.XmlDocument.dll": {},
+        "bin/Debug/TextAnalyticsBot.Api.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/TextAnalyticsBot.Api.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    },
+    "TextAnalyticsBot.DataModel/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.6.1",
+      "compile": {
+        "bin/Debug/TextAnalyticsBot.DataModel.dll": {}
+      },
+      "runtime": {
+        "bin/Debug/TextAnalyticsBot.DataModel.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/TextAnalyticsBot.DataModel.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    }
+  }
+}
