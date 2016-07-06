@@ -80,12 +80,8 @@
       <HintPath>..\packages\Microsoft.ApplicationInsights.2.0.0\lib\net46\Microsoft.ApplicationInsights.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Bot.Builder, Version=1.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Bot.Builder.1.2.4\lib\net46\Microsoft.Bot.Builder.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Bot.Builder.FormFlow.Json, Version=1.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Bot.Builder.1.2.4\lib\net46\Microsoft.Bot.Builder.FormFlow.Json.dll</HintPath>
+    <Reference Include="Microsoft.Bot.Builder, Version=1.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bot.Builder.1.2.5\lib\net46\Microsoft.Bot.Builder.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Bot.Connector, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -240,8 +236,6 @@
     <Content Include="bower_components\jquery\.gitignore" />
     <Content Include="bower_components\jquery\.gitmodules" />
     <Content Include="bower_components\jquery\AUTHORS.txt" />
-    <Content Include="bower_components\jquery\build\release-notes.js" />
-    <Content Include="bower_components\jquery\build\release.js" />
     <Content Include="bower_components\jquery\Gruntfile.js" />
     <Content Include="bower_components\jquery\jquery-migrate.js" />
     <Content Include="bower_components\jquery\jquery-migrate.min.js" />
@@ -562,6 +556,7 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="bower_components\jquery\build\" />
     <Folder Include="bower_components\jquery\src\sizzle\" />
     <Folder Include="bower_components\jquery\test\qunit\" />
   </ItemGroup>
@@ -583,7 +578,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>3978</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
