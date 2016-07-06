@@ -15,7 +15,7 @@ using TextAnalyticsBot.WebApi.Model;
 
 namespace TextAnalyticsBot.WebApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class MessagesController : Controller
     {
         private string BaseUrl = string.Empty;
