@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Swashbuckle.SwaggerGen.Application;
 using TextAnalyticsBot.WebApi.Model;
 
 namespace TextAnalyticsBot.WebApi
@@ -43,7 +44,7 @@ namespace TextAnalyticsBot.WebApi
 
             services.AddMvc();
 
-            services.AddSwaggerGen();
+            //services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline
@@ -58,8 +59,8 @@ namespace TextAnalyticsBot.WebApi
 
             app.UseMvc();
 
-            app.UseSwagger();
-            app.UseSwaggerUi();
+            //app.UseSwagger();
+            //app.UseSwaggerUi();
         }
     }
 }
