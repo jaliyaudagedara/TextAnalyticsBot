@@ -42,6 +42,8 @@ namespace TextAnalyticsBot.WebApi
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
             services.AddMvc();
+
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline
@@ -55,6 +57,9 @@ namespace TextAnalyticsBot.WebApi
             app.UseApplicationInsightsExceptionTelemetry();
 
             app.UseMvc();
+
+            app.UseSwagger();
+            app.UseSwaggerUi();
         }
     }
 }
